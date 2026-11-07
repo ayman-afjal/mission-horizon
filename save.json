@@ -1,0 +1,15 @@
+{
+ "completed": {},
+ "designs": {
+  "m1": [
+   "guidance_unit",
+   "sat_small",
+   "tank_s",
+   "engine_ember"
+  ]
+ },
+ "scripts": {
+  "m1": "# Straight up. Drag costs altitude, so burn the whole tank.\nthrottle 1\nwait until stage_fuel < 0.01\nthrottle 0\nprint Engine cut - coasting to apogee"
+ },
+ "selected": "m1"
+}

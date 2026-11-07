@@ -7,7 +7,7 @@ class SceneBase:
     def process_input(self, events, keys):
         pass
 
-    def update(self):
+    def update(self, dt=0.0):
         pass
 
     def render(self, screen):

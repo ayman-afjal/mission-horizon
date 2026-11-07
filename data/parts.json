@@ -1,0 +1,19 @@
+[
+ {"id":"guidance_unit","name":"Guidance Unit Mk1","category":"pod","role":"probe","mass":50,"cost":0.4,"length":0.6,"diameter":1.0,"unlock":null,"description":"Basic avionics. Required on top of every craft."},
+ {"id":"lander_probe","name":"Lander Probe","category":"pod","role":"lander","mass":400,"cost":3.0,"length":1.6,"diameter":2.0,"unlock":"m3","description":"Avionics plus landing legs. Required for landing missions."},
+ {"id":"sat_small","name":"Comsat Mini","category":"payload","role":"satellite","mass":200,"cost":2.0,"length":1.0,"diameter":1.0,"unlock":null,"description":"200 kg satellite payload."},
+ {"id":"tank_s","name":"Tank S","category":"tank","mass":120,"fuel":880,"cost":0.3,"length":2.0,"diameter":1.0,"unlock":null,"description":"1 t tank."},
+ {"id":"tank_m","name":"Tank M","category":"tank","mass":600,"fuel":4400,"cost":1.0,"length":4.0,"diameter":1.8,"unlock":null,"description":"5 t tank."},
+ {"id":"tank_l","name":"Tank L","category":"tank","mass":3000,"fuel":22000,"cost":3.5,"length":8.0,"diameter":3.0,"unlock":"m1","description":"25 t tank."},
+ {"id":"tank_xl","name":"Tank XL","category":"tank","mass":12000,"fuel":88000,"cost":12.0,"length":14.0,"diameter":5.0,"unlock":"m2","description":"100 t tank."},
+ {"id":"tank_xxl","name":"Tank XXL","category":"tank","mass":30000,"fuel":270000,"cost":34.0,"length":22.0,"diameter":7.0,"unlock":"m2","description":"300 t tank."},
+ {"id":"engine_ember","name":"Ember","category":"engine","mass":150,"cost":0.3,"length":0.9,"diameter":0.9,"thrust_vac":50000,"isp_vac":255,"isp_sl":225,"unlock":null,"description":"Small starter engine."},
+ {"id":"engine_kestrel","name":"Kestrel","category":"engine","mass":1100,"cost":1.6,"length":2.0,"diameter":1.6,"thrust_vac":450000,"isp_vac":315,"isp_sl":280,"unlock":"m1","description":"Kerolox workhorse."},
+ {"id":"engine_titan","name":"Titan","category":"engine","mass":7500,"cost":7.0,"length":4.0,"diameter":3.6,"thrust_vac":3400000,"isp_vac":325,"isp_sl":290,"unlock":"m2","description":"Heavy first-stage engine."},
+ {"id":"engine_swift","name":"Swift","category":"engine","mass":260,"cost":3.5,"length":1.8,"diameter":1.2,"thrust_vac":120000,"isp_vac":450,"isp_sl":150,"unlock":"m1","description":"Efficient vacuum upper stage engine (poor at sea level)."},
+ {"id":"engine_heron","name":"Heron","category":"engine","mass":2200,"cost":9.0,"length":3.5,"diameter":2.2,"thrust_vac":1100000,"isp_vac":435,"isp_sl":330,"unlock":"m2","description":"Large hydrolox stage engine."},
+ {"id":"engine_lander","name":"Lander Engine","category":"engine","mass":90,"cost":1.5,"length":1.0,"diameter":0.8,"thrust_vac":12000,"isp_vac":320,"isp_sl":200,"unlock":"m3","description":"Gentle engine for landings."},
+ {"id":"decoupler_s","name":"Decoupler S","category":"decoupler","mass":50,"cost":0.1,"length":0.3,"diameter":1.2,"unlock":null,"description":"Everything below separates when staged."},
+ {"id":"decoupler_m","name":"Decoupler M","category":"decoupler","mass":300,"cost":0.4,"length":0.4,"diameter":3.0,"unlock":"m1","description":"Medium stage separator."},
+ {"id":"decoupler_l","name":"Decoupler L","category":"decoupler","mass":1500,"cost":1.5,"length":0.6,"diameter":6.0,"unlock":"m2","description":"Heavy stage separator."}
+]

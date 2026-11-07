@@ -44,7 +44,7 @@ class AboutScene(SceneBase):
                 from scenes.menu_scene import MenuScene
                 self.switch_to(MenuScene())
 
-    def update(self):
+    def update(self, dt=0.0):
         # Update button hover physics
         mouse_pos = pygame.mouse.get_pos()
         self.back_btn.update(mouse_pos)

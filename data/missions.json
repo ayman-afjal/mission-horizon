@@ -1,0 +1,309 @@
+[
+ {
+  "id": "m1",
+  "order": 1,
+  "name": "First Light",
+  "brief": "Cross the Karman line. Fly a sounding rocket above 100 km altitude. A simple, cheap vertical flight: the ideal first test of your autopilot.",
+  "budget": 3.0,
+  "max_parts": 8,
+  "max_mass": 5000,
+  "required_roles": [],
+  "objectives": [
+   {
+    "type": "reach_altitude",
+    "altitude_m": 100000,
+    "label": "Reach 100 km altitude"
+   }
+  ],
+  "unlocks": [
+   "engine_kestrel",
+   "engine_swift",
+   "tank_l",
+   "decoupler_m"
+  ],
+  "template": [
+   "guidance_unit",
+   "tank_s",
+   "engine_ember"
+  ],
+  "script_template": [
+   "# Straight up. Drag costs altitude, so burn the whole tank.",
+   "throttle 1",
+   "wait until stage_fuel < 0.01",
+   "throttle 0",
+   "print Engine cut - coasting to apogee"
+  ],
+  "hint": "Drag matters: a rocket that would just reach 100 km in a vacuum falls short in the atmosphere. Burn the whole tank, or build a little bigger."
+ },
+ {
+  "id": "m2",
+  "order": 2,
+  "requires": "m1",
+  "name": "Park in Orbit",
+  "brief": "Put a satellite into a stable low Earth orbit: periapsis above 160 km, held for a minute. You need roughly 9.4 km/s of \u0394v in total: staging, a gravity turn and a circularisation burn at apoapsis.",
+  "budget": 30.0,
+  "max_parts": 16,
+  "max_mass": 80000,
+  "required_roles": [
+   "satellite"
+  ],
+  "objectives": [
+   {
+    "type": "stable_orbit",
+    "body": "earth",
+    "min_periapsis_m": 160000,
+    "hold_s": 60,
+    "label": "Orbit Earth with periapsis above 160 km"
+   }
+  ],
+  "unlocks": [
+   "engine_titan",
+   "tank_xl",
+   "tank_xxl",
+   "engine_heron",
+   "decoupler_l"
+  ],
+  "template": [
+   "guidance_unit",
+   "sat_small",
+   "decoupler_s",
+   "tank_m",
+   "engine_swift",
+   "decoupler_m",
+   "tank_m",
+   "engine_swift",
+   "decoupler_m",
+   "tank_l",
+   "tank_m",
+   "engine_kestrel",
+   "engine_kestrel"
+  ],
+  "script_template": [
+   "# Stage 1: climb, then gravity turn",
+   "throttle 1",
+   "wait until altitude > 600",
+   "pitch 80          # small kick to the east",
+   "wait until altitude > 3km",
+   "sas prograde      # follow the flight path",
+   "wait until stage_fuel < 0.01",
+   "stage             # drop empty stage 1, stage 2 lights",
+   "wait until stage_fuel < 0.01",
+   "throttle 0",
+   "stage             # drop stage 2",
+   "warp 50",
+   "wait until eta_apoapsis < 90",
+   "warp 1",
+   "throttle 1        # circularise at apoapsis",
+   "wait until periapsis > 170km",
+   "throttle 0",
+   "print In orbit!"
+  ],
+  "hint": "Check \u0394v per stage in the VAB. A first stage with TWR ~1.5 and a ~90 s burn flies well; hydrolox (Swift) engines shine in the upper stages."
+ },
+ {
+  "id": "m3",
+  "order": 3,
+  "requires": "m2",
+  "name": "Lunar Orbiter",
+  "brief": "Send a satellite to the Moon and capture it into a lunar orbit (periapsis above 20 km, apoapsis below 10,000 km, held for 5 minutes). You need ~9.4 km/s to reach LEO, ~3.1 km/s for the trans-lunar burn and ~1 km/s to be captured - and the Moon must be in the right place when you leave.",
+  "budget": 100.0,
+  "max_parts": 20,
+  "max_mass": 450000,
+  "required_roles": [
+   "satellite"
+  ],
+  "objectives": [
+   {
+    "type": "stable_orbit",
+    "body": "moon",
+    "min_periapsis_m": 20000,
+    "max_apoapsis_m": 10000000,
+    "hold_s": 300,
+    "label": "Orbit the Moon (Pe > 20 km, Ap < 10,000 km)"
+   }
+  ],
+  "unlocks": [
+   "lander_probe",
+   "engine_lander"
+  ],
+  "template": [
+   "guidance_unit",
+   "sat_small",
+   "decoupler_s",
+   "tank_m",
+   "tank_m",
+   "engine_swift",
+   "decoupler_m",
+   "tank_l",
+   "engine_heron",
+   "decoupler_l",
+   "tank_xxl",
+   "engine_titan",
+   "engine_titan"
+  ],
+  "script_template": [
+   "# ---- ascent (open-loop pitch program)",
+   "throttle 1",
+   "wait until altitude > 600",
+   "pitch 80",
+   "wait until altitude > 2500",
+   "pitch 62",
+   "wait until altitude > 9km",
+   "pitch 45",
+   "wait until altitude > 25km",
+   "pitch 30",
+   "wait until stage_fuel < 0.01",
+   "stage",
+   "pitch 5",
+   "wait until stage_fuel < 0.01",
+   "throttle 0",
+   "stage",
+   "# ---- circularise in a parking orbit with the upper stage",
+   "sas prograde",
+   "warp 50",
+   "wait until eta_apoapsis < 70",
+   "warp 1",
+   "throttle 1",
+   "wait until periapsis > 440km",
+   "throttle 0",
+   "# ---- trans-lunar injection: leave when the Moon is ~131 deg ahead of you",
+   "warp 50",
+   "wait until moon_angle > 330",
+   "wait until moon_angle < 131",
+   "warp 1",
+   "sas prograde",
+   "throttle 1",
+   "wait until apoapsis > 380000km",
+   "throttle 0",
+   "# ---- coast (3-5 days), then brake into lunar orbit at periapsis",
+   "warp 100000",
+   "wait until in_moon_soi > 0",
+   "warp 10",
+   "sas retrograde",
+   "wait until eta_periapsis < 25",
+   "warp 1",
+   "throttle 1",
+   "wait until apoapsis < 8000km",
+   "throttle 0",
+   "print Captured in lunar orbit"
+  ],
+  "hint": "Open the map (M) after the burn: it shows where the Moon will be and your predicted closest approach. A 1 degree change in departure angle moves your pass by ~1000 km."
+ },
+ {
+  "id": "m4",
+  "order": 4,
+  "requires": "m3",
+  "name": "Touchdown",
+  "brief": "Land on the Moon. Everything from Mission 3, plus a lander: kill your orbital speed, fall, and slow to under 5 m/s before you touch the surface. Landing legs are part of the Lander Probe, so it is required. Bring more \u0394v than you think.",
+  "budget": 160.0,
+  "max_parts": 24,
+  "max_mass": 800000,
+  "required_roles": [
+   "lander"
+  ],
+  "objectives": [
+   {
+    "type": "soft_landing",
+    "body": "moon",
+    "label": "Land on the Moon (under 5 m/s)"
+   }
+  ],
+  "unlocks": [],
+  "template": [
+   "lander_probe",
+   "tank_s",
+   "tank_s",
+   "engine_lander",
+   "decoupler_s",
+   "tank_m",
+   "tank_m",
+   "engine_swift",
+   "engine_swift",
+   "decoupler_m",
+   "tank_xl",
+   "engine_heron",
+   "engine_heron",
+   "decoupler_l",
+   "tank_xxl",
+   "tank_xl",
+   "engine_titan",
+   "engine_titan",
+   "engine_titan"
+  ],
+  "script_template": [
+   "# ---- ascent (open-loop pitch program)",
+   "throttle 1",
+   "wait until altitude > 600",
+   "pitch 80",
+   "wait until altitude > 2500",
+   "pitch 62",
+   "wait until altitude > 9km",
+   "pitch 45",
+   "wait until altitude > 25km",
+   "pitch 30",
+   "wait until stage_fuel < 0.01",
+   "stage",
+   "pitch 5",
+   "wait until stage_fuel < 0.01",
+   "throttle 0",
+   "stage",
+   "# ---- circularise in a parking orbit with the upper stage",
+   "sas prograde",
+   "warp 50",
+   "wait until eta_apoapsis < 70",
+   "warp 1",
+   "throttle 1",
+   "wait until periapsis > 440km",
+   "throttle 0",
+   "# ---- trans-lunar injection",
+   "warp 50",
+   "wait until moon_angle > 330",
+   "wait until moon_angle < 129.9",
+   "warp 1",
+   "sas prograde",
+   "throttle 1",
+   "wait until apoapsis > 380000km",
+   "throttle 0",
+   "# ---- coast, then brake into lunar orbit at periapsis",
+   "warp 100000",
+   "wait until in_moon_soi > 0",
+   "warp 10",
+   "sas retrograde",
+   "wait until eta_periapsis < 25",
+   "warp 1",
+   "throttle 1",
+   "wait until apoapsis < 3000km",
+   "throttle 0",
+   "stage   # drop the transfer stage",
+   "# ---- powered descent: stop the orbital motion...",
+   "sas retrograde",
+   "throttle 1",
+   "wait until horizontal_speed < 25",
+   "throttle 0",
+   "# ---- ...fall, then a closed-loop suicide burn",
+   "wait until altitude < speed*speed/(2*(twr-1)*gravity)*1.3 + 100",
+   "throttle min(1, max(0, (speed*speed/(2*max(altitude - 1, 0.5)) + gravity*0.9)/(twr*gravity)*1.05)) until landed > 0",
+   "throttle 0",
+   "print Touchdown!"
+  ],
+  "hint": "The descent script uses a closed-loop 'throttle ... until landed' controller: it computes the deceleration needed to stop exactly at the ground and sets the throttle every step."
+ },
+ {
+  "id": "m5",
+  "order": 5,
+  "requires": "m4",
+  "available": false,
+  "name": "Sample Return",
+  "brief": "Coming in a future milestone: land, collect a sample, launch from the Moon, and re-enter Earth's atmosphere. Needs Earth rotation, re-entry heating and parachutes.",
+  "budget": 1.0,
+  "max_parts": 1,
+  "max_mass": 1,
+  "objectives": [
+   {
+    "type": "soft_landing",
+    "body": "earth",
+    "label": "Bring a sample home (coming soon)"
+   }
+  ]
+ }
+]

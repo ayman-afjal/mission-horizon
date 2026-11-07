@@ -1,0 +1,7 @@
+{
+  "earth": {"name": "Earth", "mu": 3.986004418e14, "radius": 6371000.0, "color": [34, 84, 140],
+            "atmosphere": {"rho0": 1.225, "scale_height": 8500.0, "height": 140000.0}, "soi": null, "orbit": null},
+  "moon":  {"name": "Moon", "mu": 4.9048695e12, "radius": 1737400.0, "color": [150, 150, 155],
+            "atmosphere": null, "soi": 66100000.0,
+            "orbit": {"parent": "earth", "radius": 384400000.0, "period_s": 2360584.7, "phase_deg": 135.0, "direction": -1}}
+}

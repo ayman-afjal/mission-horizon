@@ -40,7 +40,7 @@ class MenuScene(SceneBase):
                 from scenes.about import AboutScene
                 self.switch_to(AboutScene())
 
-    def update(self):
+    def update(self, dt=0.0):
         # Pass the current mouse cursor position to update hover animations
         mouse_pos = pygame.mouse.get_pos()
         self.space_center_btn.update(mouse_pos)
